@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset dan Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-red: #c00000;
+            --primary-blue: #0050c8;
+            --dark-blue: #0a0a2a;
+            --light-blue: #1a1a4a;
+            --text-light: #ffffff;
+            --text-gray: #dddddd;
+        }
+
+        body {
+            color: var(--text-light);
+            background: var(--dark-blue);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animasi Bintang dan Galaksi yang Lebih Menonjol */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(10px) rotate(240deg); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        @keyframes shooting-star {
+            0% { transform: translateX(-100px) translateY(-100px) rotate(45deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(100vw) translateY(100vh) rotate(45deg); opacity: 0; }
+        }
+
+        .galaxy-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at center, #0a0a2a 0%, #050515 60%, #000005 100%);
+            overflow: hidden;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        .star.large {
+            width: 4px;
+            height: 4px;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .star.medium {
+            width: 2px;
+            height: 2px;
+            box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.6);
+        }
+
+        .star.small {
+            width: 1px;
+            height: 1px;
+            box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.4);
+        }
+
+        .galaxy {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(100, 100, 255, 0.3), transparent 70%);
+            top: 20%;
+            left: 10%;
+            animation: float 25s infinite ease-in-out;
+            box-shadow: 0 0 100px 20px rgba(100, 100, 255, 0.2);
+        }
+
+        .galaxy-2 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 70% 70%, rgba(255, 100, 100, 0.25), transparent 70%);
+            top: 60%;
+            right: 10%;
+            animation: float 20s infinite ease-in-out reverse;
+            box-shadow: 0 0 80px 15px rgba(255, 100, 100, 0.15);
+        }
+
+        .nebula {
+            position: absolute;
+            width: 800px;
+            height: 500px;
+            background: radial-gradient(ellipse at center, rgba(100, 50, 200, 0.2), transparent 70%);
+            top: 10%;
+            right: 5%;
+            animation: pulse 15s infinite ease-in-out;
+            filter: blur(20px);
+        }
+
+        .planet {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, var(--primary-blue), #001a4a);
+            top: 30%;
+            right: 20%;
+            animation: rotate 40s infinite linear;
+            box-shadow: 0 0 30px 5px rgba(0, 80, 200, 0.5);
+        }
+
+        .comet {
+            position: absolute;
+            width: 150px;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            border-radius: 50%;
+            animation: shooting-star 15s infinite linear;
+            animation-delay: 5s;
+        }
+
+        .comet::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -2px;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px white;
+        }
+
+        /* Header dan Navigasi */
+        header {
+            background: rgba(10, 10, 42, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .logo img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 50%;
+        }
+
+        .site-title {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            background: rgba(200, 0, 0, 0.7);
+            color: #fff;
+        }
+
+        nav a.active {
+            background: rgba(0, 80, 200, 0.7);
+            color: #fff;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(10, 10, 42, 0.7);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(200, 0, 0, 0.1), rgba(0, 80, 200, 0.1));
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 80, 200, 0.7);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        /* Photo Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Cards */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: rgba(20, 20, 60, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            color: #fff;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        /* Angkatan Section */
+        .angkatan {
+            margin-top: 40px;
+        }
+
+        .angkatan h3 {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(200, 0, 0, 0.7);
+            color: #fff;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: rgba(20, 20, 60, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .admin-toggle:hover {
+            background: var(--primary-blue);
+            transform: scale(1.1);
+        }
+
+        .admin-form {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .admin-form input, .admin-form textarea, .admin-form select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .admin-form button {
+            padding: 10px;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .admin-form button:hover {
+            background: var(--primary-blue);
+        }
+
+        /* Upload Form */
+        .upload-form {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(30, 30, 70, 0.8);
+            border-radius: 10px;
+        }
+
+        .upload-form h3 {
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .upload-form input[type="file"] {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            color: white;
+        }
+
+        .upload-form button {
+            padding: 10px 15px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .upload-form button:hover {
+            background: var(--primary-red);
+        }
+
+        /* Admin Login */
+        .login-form {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(20, 20, 60, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .login-form button:hover {
+            background: var(--primary-red);
+        }
+
+        /* Edit Button */
+        .edit-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .card:hover .edit-btn,
+        .gallery-item:hover .edit-btn {
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 42, 0.9);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+        }
+
+        /* Modal untuk gambar */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 80, 200, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--primary-red);
+        }
+
+        /* Image Replacement Modal */
+        .replace-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .replace-modal.active {
+            display: flex;
+        }
+
+        .replace-modal-content {
+            background: rgba(20, 20, 60, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 30px rgba(0, 80, 200, 0.5);
+        }
+
+        .replace-modal h3 {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .replace-modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .replace-modal-buttons button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .replace-modal-buttons .confirm-btn {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .replace-modal-buttons .cancel-btn {
+            background: var(--primary-red);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Edit Content Form */
+        .edit-content-form {
+            background: rgba(30, 30, 70, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .edit-content-form h3 {
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .edit-item {
+            background: rgba(40, 40, 80, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .edit-item h4 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Galaksi yang Lebih Menonjol -->
+    <div class="galaxy-background">
+        <div class="galaxy"></div>
+        <div class="galaxy-2"></div>
+        <div class="nebula"></div>
+        <div class="planet"></div>
+        <div class="comet"></div>
+        <div class="stars" id="stars"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <div class="logo">
+                    <!-- Logo UNHAS - menggunakan link yang diberikan -->
+                    <img src="https://drive.google.com/thumbnail?id=1zH3QoeOTYf19Kncf6&sz=w1000" alt="Logo UNHAS" id="logo-unhas">
+                </div>
+                <div class="site-title">
+                    <h1>Laboratorium Fisika Teori dan Komputasi</h1>
+                    <p>FMIPA Universitas Hasanuddin</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-target="beranda">Beranda</a></li>
+                    <li><a href="#" class="nav-link" data-target="info-lab">Info Lab</a></li>
+                    <li><a href="#" class="nav-link" data-target="dosen">Dosen</a></li>
+                    <li><a href="#" class="nav-link" data-target="mahasiswa">Mahasiswa</a></li>
+                    <li><a href="#" class="nav-link" data-target="penelitian">Penelitian</a></li>
+                    <li><a href="#" class="nav-link" data-target="admin-login" id="admin-nav">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Beranda Section -->
+        <section id="beranda" class="section active">
+            <div class="hero">
+                <h1 id="beranda-title">Selamat Datang di Laboratorium Fisika Teori dan Komputasi</h1>
+                <p id="beranda-desc">Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS merupakan pusat penelitian dan pengembangan di bidang fisika teori dan komputasi yang mendukung kegiatan akademik dan penelitian mahasiswa serta dosen.</p>
+                <div class="gallery" id="beranda-gallery">
+                    <!-- Gambar akan dimuat melalui JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Info Lab Section -->
+        <section id="info-lab" class="section">
+            <div class="hero">
+                <h1 id="info-lab-title">Informasi Laboratorium</h1>
+                <p id="info-lab-desc">Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS memiliki fasilitas dan peralatan yang mendukung penelitian di bidang fisika teori dan komputasi.</p>
+            </div>
+            
+            <div class="card-container" id="info-lab-cards">
+                <!-- Kartu info lab akan dimuat melalui JavaScript -->
+            </div>
+        </section>
+
+        <!-- Dosen Section -->
+        <section id="dosen" class="section">
+            <div class="hero">
+                <h1 id="dosen-title">Dosen Laboratorium</h1>
+                <p id="dosen-desc">Dosen-dosen pengajar dan peneliti di Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS.</p>
+            </div>
+            
+            <div class="card-container" id="dosen-cards">
+                <!-- Kartu dosen akan dimuat melalui JavaScript -->
+            </div>
+        </section>
+
+        <!-- Mahasiswa Section -->
+        <section id="mahasiswa" class="section">
+            <div class="hero">
+                <h1 id="mahasiswa-title">Mahasiswa Laboratorium</h1>
+                <p id="mahasiswa-desc">Mahasiswa aktif yang tergabung dalam Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS.</p>
+            </div>
+            
+            <div id="mahasiswa-angkatan">
+                <!-- Data mahasiswa per angkatan akan dimuat melalui JavaScript -->
+            </div>
+        </section>
+
+        <!-- Penelitian Section -->
+        <section id="penelitian" class="section">
+            <div class="hero">
+                <h1 id="penelitian-title">Penelitian</h1>
+                <p id="penelitian-desc">Daftar penelitian yang dilakukan oleh mahasiswa Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS.</p>
+            </div>
+            
+            <div class="card-container" id="research-projects">
+                <!-- Data penelitian akan dimuat melalui JavaScript -->
+            </div>
+        </section>
+
+        <!-- Admin Login Section -->
+        <section id="admin-login" class="section">
+            <div class="login-form">
+                <h2>Login Admin</h2>
+                <input type="password" id="admin-password" placeholder="Masukkan Password Admin">
+                <button id="login-btn">Login</button>
+                <p id="login-message" style="text-align: center; margin-top: 15px; color: #ff6b6b;"></p>
+            </div>
+        </section>
+
+        <!-- Admin Panel Section -->
+        <section id="admin-panel" class="section">
+            <div class="hero">
+                <h1>Panel Admin</h1>
+                <p>Kelola konten website Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS</p>
+                <button id="logout-btn" style="margin-top: 20px; padding: 10px 20px; background: var(--primary-red); color: white; border: none; border-radius: 5px; cursor: pointer;">Logout</button>
+            </div>
+
+            <div class="admin-panel active">
+                <h2>Edit Konten Beranda</h2>
+                <div class="admin-form">
+                    <input type="text" id="edit-beranda-title" placeholder="Judul Beranda">
+                    <textarea id="edit-beranda-desc" placeholder="Deskripsi Beranda"></textarea>
+                    <button id="save-beranda">Simpan Perubahan Beranda</button>
+                </div>
+
+                <h2>Upload Gambar untuk Beranda</h2>
+                <div class="upload-form">
+                    <input type="file" id="beranda-image-upload" accept="image/*">
+                    <input type="text" id="beranda-image-caption" placeholder="Keterangan Gambar">
+                    <button id="upload-beranda-image">Upload Gambar ke Beranda</button>
+                </div>
+
+                <h2>Edit Konten Info Lab</h2>
+                <div class="admin-form">
+                    <input type="text" id="edit-info-lab-title" placeholder="Judul Info Lab">
+                    <textarea id="edit-info-lab-desc" placeholder="Deskripsi Info Lab"></textarea>
+                    <button id="save-info-lab">Simpan Perubahan Info Lab</button>
+                </div>
+
+                <h2>Edit Kartu Info Lab</h2>
+                <div id="edit-info-lab-cards-form">
+                    <!-- Form untuk mengedit kartu info lab akan dimuat di sini -->
+                </div>
+
+                <h2>Edit Konten Dosen</h2>
+                <div class="admin-form">
+                    <input type="text" id="edit-dosen-title" placeholder="Judul Halaman Dosen">
+                    <textarea id="edit-dosen-desc" placeholder="Deskripsi Halaman Dosen"></textarea>
+                    <button id="save-dosen">Simpan Perubahan Dosen</button>
+                </div>
+
+                <h2>Edit Data Dosen</h2>
+                <div id="edit-dosen-cards-form">
+                    <!-- Form untuk mengedit data dosen akan dimuat di sini -->
+                </div>
+
+                <h2>Edit Konten Mahasiswa</h2>
+                <div class="admin-form">
+                    <input type="text" id="edit-mahasiswa-title" placeholder="Judul Halaman Mahasiswa">
+                    <textarea id="edit-mahasiswa-desc" placeholder="Deskripsi Halaman Mahasiswa"></textarea>
+                    <button id="save-mahasiswa">Simpan Perubahan Mahasiswa</button>
+                </div>
+
+                <h2>Edit Data Mahasiswa</h2>
+                <div id="edit-mahasiswa-form">
+                    <!-- Form untuk mengedit data mahasiswa akan dimuat di sini -->
+                </div>
+
+                <h2>Edit Konten Penelitian</h2>
+                <div class="admin-form">
+                    <input type="text" id="edit-penelitian-title" placeholder="Judul Halaman Penelitian">
+                    <textarea id="edit-penelitian-desc" placeholder="Deskripsi Halaman Penelitian"></textarea>
+                    <button id="save-penelitian">Simpan Perubahan Penelitian</button>
+                </div>
+
+                <h2>Edit Data Penelitian</h2>
+                <div id="edit-penelitian-form">
+                    <!-- Form untuk mengedit data penelitian akan dimuat di sini -->
+                </div>
+
+                <h2>Upload Logo UNHAS</h2>
+                <div class="upload-form">
+                    <input type="file" id="logo-upload" accept="image/*">
+                    <button id="upload-logo">Upload Logo Baru</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal untuk gambar -->
+    <div class="modal" id="image-modal">
+        <span class="modal-close" id="modal-close">&times;</span>
+        <img class="modal-content" id="modal-image" src="" alt="">
+    </div>
+
+    <!-- Modal untuk mengganti gambar -->
+    <div class="replace-modal" id="replace-modal">
+        <div class="replace-modal-content">
+            <h3>Ganti Gambar</h3>
+            <p>Pilih gambar baru dari komputer Anda:</p>
+            <input type="file" id="replace-image-input" accept="image/*">
+            <div class="replace-modal-buttons">
+                <button class="confirm-btn" id="confirm-replace">Ganti Gambar</button>
+                <button class="cancel-btn" id="cancel-replace">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Kontak Kami</h3>
+                <p>Laboratorium Fisika Teori dan Komputasi</p>
+                <p>FMIPA Universitas Hasanuddin</p>
+                <p>Jl. Perintis Kemerdekaan KM.10 Tamalanrea</p>
+                <p>Makassar, Sulawesi Selatan 90245</p>
+                <p>Email: labfisikateori@unhas.ac.id</p>
+                <p>Telepon: (0411) 123456</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Tautan Cepat</h3>
+                <a href="#" class="nav-link" data-target="beranda">Beranda</a>
+                <a href="#" class="nav-link" data-target="info-lab">Info Lab</a>
+                <a href="#" class="nav-link" data-target="dosen">Dosen</a>
+                <a href="#" class="nav-link" data-target="mahasiswa">Mahasiswa</a>
+                <a href="#" class="nav-link" data-target="penelitian">Penelitian</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Ikuti Kami</h3>
+                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS. Semua Hak Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data default untuk website
+        const defaultData = {
+            beranda: {
+                title: "Selamat Datang di Laboratorium Fisika Teori dan Komputasi",
+                description: "Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS merupakan pusat penelitian dan pengembangan di bidang fisika teori dan komputasi yang mendukung kegiatan akademik dan penelitian mahasiswa serta dosen.",
+                images: [
+                    { url: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80", caption: "Aktivitas di Laboratorium" },
+                    { url: "https://images.unsplash.com/photo-1581094794325-85531f4d1038?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80", caption: "Kegiatan Penelitian" },
+                    { url: "https://images.unsplash.com/photo-1581094794326-85531f4d1039?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80", caption: "Diskusi Ilmiah" },
+                    { url: "https://images.unsplash.com/photo-1581094794327-85531f4d1040?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80", caption: "Perangkat Komputasi" }
+                ]
+            },
+            infoLab: {
+                title: "Informasi Laboratorium",
+                description: "Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS memiliki fasilitas dan peralatan yang mendukung penelitian di bidang fisika teori dan komputasi.",
+                cards: [
+                    {
+                        title: "Fasilitas Laboratorium",
+                        description: "Laboratorium dilengkapi dengan komputer performa tinggi, software khusus untuk simulasi fisika, dan akses ke sumber daya komputasi cluster.",
+                        image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    },
+                    {
+                        title: "Riset dan Pengembangan",
+                        description: "Fokus penelitian meliputi fisika material, fisika partikel, astrofisika, dan sistem kompleks dengan pendekatan komputasi.",
+                        image: "https://images.unsplash.com/photo-1581094794325-85531f4d1038?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    },
+                    {
+                        title: "Kolaborasi",
+                        description: "Laboratorium aktif berkolaborasi dengan institusi nasional dan internasional dalam berbagai proyek penelitian.",
+                        image: "https://images.unsplash.com/photo-1581094794326-85531f4d1039?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    }
+                ]
+            },
+            dosen: {
+                title: "Dosen Laboratorium",
+                description: "Dosen-dosen pengajar dan peneliti di Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS.",
+                cards: [
+                    {
+                        name: "Prof. Dr. rer. nat. Wira Bahari Nurdin",
+                        specialization: "Fisika Teori dan Komputasi",
+                        education: " ",
+                        email: "wirabn@fmipa.unhas.ac.id",
+                        image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    },
+                    {
+                        name: "Prof. Dr. Tasrief Surungan, M.Sc.",
+                        specialization: "Fisika Teori dan Komputasi",
+                        education: "",
+                        email: "tasrief@unhas.ac.id",
+                        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    },
+                    {
+                        name: "Drs. Bansawang B.J., M.Si.",
+                        specialization: "Fisika Teori dan Komputasi",
+                        education: "",
+                        email: "",
+                        image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    },
+                    {
+                        name: "Azwar Sutiono, S.Si., M.Si.",
+                        specialization: "Fisika Teori dan Komputasi",
+                        education: "",
+                        email: "",
+                        image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    },
+                    {
+                        name: "Bayu Dirgantara, SST., Ph.D",
+                        specialization: "Fisika Teori dan Komputasi",
+                        education: "",
+                        email: "batudirgantara@unhas.ac.id",
+                        image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                    }
+                ]
+            },
+            mahasiswa: {
+                title: "Mahasiswa Laboratorium",
+                description: "Mahasiswa aktif yang tergabung dalam Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS.",
+                angkatan: {
+                    "2023": [
+                        {
+                            name: "Deby Lebryawati",
+                            nim: "H071201023",
+                            interest: "Fisika Teori dan Komputasi",
+                            email: "",
+                            image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                        },
+                        {
+                            name: "Nurhaliza",
+                            nim: "H021231008",
+                            interest: "Fisika Teori dan Komputasi",
+                            email: "",
+                            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                        },
+                        {
+                            name: "Elviana",
+                            nim: "H021231006",
+                            interest: "Fisika Teori dan Komputasi",
+                            email: "",
+                            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                        },
+                        {
+                            name: "Santri",
+                            nim: "H021231010",
+                            interest: "Fisika Teori dan Komputasi",
+                            email: "",
+                            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                        },
+                        {
+                            name: "Citra Fikriah Jamal",
+                            nim: "H021231012",
+                            interest: "Fisika Teori dan Komputasi",
+                            email: "",
+                            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                        },
+                        {
+                            name: "Yeni Estefani Parinding",
+                            nim: "H021231016",
+                            interest: "Fisika Teori dan Komputasi",
+                            email: "",
+                            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                        },
+                        {
+                            name: "Muhammad Ibrahim",
+                            nim: "H021231026",
+                            interest: "Fisika Teori dan Komputasi",
+                            email: "",
+                            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                        },
+                        {
+                            name: "Angga Anugrah",
+                            nim: "H021231024",
+                            interest: "Fisika Teori dan Komputasi",
+                            email: "",
+                            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                        }
+                    ]
+                }
+            },
+            penelitian: {
+                title: "Penelitian",
+                description: "Daftar penelitian yang dilakukan oleh mahasiswa Laboratorium Fisika Teori dan Komputasi FMIPA UNHAS.",
+                projects: [
+                    {
+                        name: "Deby Lebryawati",
+                        nim: "H071201023",
+                        title: "Simulasi Komputasi Material Baru untuk Aplikasi Energi Terbarukan",
+                        advisor: "Prof. Dr. rer. nat. Wira Bahari Nurdin"
+                    },
+                    {
+                        name: "Nurhaliza",
+                        nim: "H021231008",
+                        title: "Studi Teoritis Sifat Elektronik Material 2D",
+                        advisor: "Prof. Dr. Tasrief Surungan, M.Sc."
+                    },
+                    {
+                        name: "Elviana",
+                        nim: "H021231006",
+                        title: "Pemodelan Sistem Kompleks dalam Fisika Material",
+                        advisor: "Drs. Bansawang B.J., M.Si."
+                    },
+                    {
+                        name: "Santri",
+                        nim: "H021231010",
+                        title: "Analisis Numerik Sifat Termodinamika Material Magnetik",
+                        advisor: "Azwar Sutiono, S.Si., M.Si."
+                    },
+                    {
+                        name: "Citra Fikriah Jamal",
+                        nim: "H021231012",
+                        title: "Simulasi Dinamika Molekuler untuk Material Nano",
+                        advisor: "Bayu Dirgantara, SST., Ph.D"
+                    },
+                    {
+                        name: "Yeni Estefani Parinding",
+                        nim: "H021231016",
+                        title: "Pemodelan Komputasi Sifat Optik Material Semikonduktor",
+                        advisor: "Prof. Dr. rer. nat. Wira Bahari Nurdin"
+                    },
+                    {
+                        name: "Muhammad Ibrahim",
+                        nim: "H021231026",
+                        title: "Studi Simulasi Material Feroelektrik untuk Aplikasi Sensor",
+                        advisor: "Prof. Dr. Tasrief Surungan, M.Sc."
+                    },
+                    {
+                        name: "Angga Anugrah",
+                        nim: "H021231024",
+                        title: "Pemodelan Komputasi Sifat Mekanik Material Komposit",
+                        advisor: "Drs. Bansawang B.J., M.Si."
+                    }
+                ]
+            },
+            logo: "https://drive.google.com/thumbnail?id=1zH3QoeOTYf19Kncf6&sz=w1000"
+        };
+
+        // Password admin
+        const ADMIN_PASSWORD = "admin123";
+
+        // Variabel global untuk melacak gambar yang akan diganti
+        let currentReplacementTarget = null;
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigasi antar halaman
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Hapus kelas aktif dari semua link dan section
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+                    
+                    // Tambahkan kelas aktif ke link yang diklik
+                    this.classList.add('active');
+                    
+                    // Tampilkan section yang sesuai
+                    const targetId = this.getAttribute('data-target');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+            
+            // Membuat bintang bergerak yang lebih menonjol
+            createStars();
+            
+            // Memuat data website
+            loadWebsiteData();
+            
+            // Setup admin functionality
+            setupAdminFunctionality();
+            
+            // Setup modal gambar
+            setupImageModal();
+            
+            // Setup modal penggantian gambar
+            setupReplaceModal();
+        });
+        
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 400; // Lebih banyak bintang
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                
+                // Pilih ukuran bintang secara acak
+                const sizeType = Math.random();
+                if (sizeType < 0.1) {
+                    star.classList.add('star', 'large');
+                } else if (sizeType < 0.4) {
+                    star.classList.add('star', 'medium');
+                } else {
+                    star.classList.add('star', 'small');
+                }
+                
+                // Posisi acak
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Durasi animasi acak
+                const duration = 2 + Math.random() * 8;
+                
+                // Delay acak
+                const delay = Math.random() * 10;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        function loadWebsiteData() {
+            // Ambil data dari localStorage jika ada
+            let websiteData = localStorage.getItem('websiteData');
+            if (!websiteData) {
+                websiteData = defaultData;
+                localStorage.setItem('websiteData', JSON.stringify(websiteData));
+            } else {
+                websiteData = JSON.parse(websiteData);
+            }
+            
+            // Load beranda
+            document.getElementById('beranda-title').textContent = websiteData.beranda.title;
+            document.getElementById('beranda-desc').textContent = websiteData.beranda.description;
+            loadGallery('beranda-gallery', websiteData.beranda.images);
+            
+            // Load info lab
+            document.getElementById('info-lab-title').textContent = websiteData.infoLab.title;
+            document.getElementById('info-lab-desc').textContent = websiteData.infoLab.description;
+            loadInfoLabCards(websiteData.infoLab.cards);
+            
+            // Load dosen
+            document.getElementById('dosen-title').textContent = websiteData.dosen.title;
+            document.getElementById('dosen-desc').textContent = websiteData.dosen.description;
+            loadDosenCards(websiteData.dosen.cards);
+            
+            // Load mahasiswa
+            document.getElementById('mahasiswa-title').textContent = websiteData.mahasiswa.title;
+            document.getElementById('mahasiswa-desc').textContent = websiteData.mahasiswa.description;
+            loadMahasiswaData(websiteData.mahasiswa.angkatan);
+            
+            // Load penelitian
+            document.getElementById('penelitian-title').textContent = websiteData.penelitian.title;
+            document.getElementById('penelitian-desc').textContent = websiteData.penelitian.description;
+            loadResearchProjects(websiteData.penelitian.projects);
+            
+            // Load logo - dengan fallback ke data URL jika tidak ada di localStorage
+            const logoImg = document.getElementById('logo-unhas');
+            if (websiteData.logo) {
+                logoImg.src = websiteData.logo;
+            } else {
+                logoImg.src = defaultData.logo;
+            }
+            
+            // Setup form values for admin
+            if (isAdminLoggedIn()) {
+                setupAdminFormValues(websiteData);
+                loadEditInfoLabCardsForm(websiteData);
+                loadEditDosenCardsForm(websiteData);
+                loadEditMahasiswaForm(websiteData);
+                loadEditPenelitianForm(websiteData);
+            }
+        }
+        
+        function loadGallery(containerId, images) {
+            const galleryContainer = document.getElementById(containerId);
+            galleryContainer.innerHTML = '';
+            
+            images.forEach((item, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.classList.add('gallery-item');
+                
+                galleryItem.innerHTML = `
+                    <img src="${item.url}" alt="${item.caption}" onerror="this.src='https://via.placeholder.com/300x200?text=Gambar+Tidak+Tersedia'">
+                    <div class="gallery-caption">${item.caption}</div>
+                    ${isAdminLoggedIn() ? `<button class="edit-btn" data-index="${index}" data-section="${containerId}">Ganti Gambar</button>` : ''}
+                `;
+                
+                galleryItem.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('edit-btn')) {
+                        openImageModal(item.url);
+                    }
+                });
+                
+                if (isAdminLoggedIn()) {
+                    const editBtn = galleryItem.querySelector('.edit-btn');
+                    editBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        currentReplacementTarget = {
+                            type: 'gallery',
+                            section: containerId,
+                            index: index
+                        };
+                        openReplaceModal();
+                    });
+                }
+                
+                galleryContainer.appendChild(galleryItem);
+            });
+        }
+        
+        function loadInfoLabCards(cards) {
+            const container = document.getElementById('info-lab-cards');
+            container.innerHTML = '';
+            
+            cards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('card');
+                
+                cardElement.innerHTML = `
+                    <div class="card-img">
+                        <img src="${card.image}" alt="${card.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Gambar+Tidak+Tersedia'">
+                        ${isAdminLoggedIn() ? `<button class="edit-btn" data-index="${index}" data-section="infoLab">Ganti Gambar</button>` : ''}
+                    </div>
+                    <div class="card-content">
+                        <h3>${card.title}</h3>
+                        <p>${card.description}</p>
+                    </div>
+                `;
+                
+                if (isAdminLoggedIn()) {
+                    const editBtn = cardElement.querySelector('.edit-btn');
+                    editBtn.addEventListener('click', () => {
+                        currentReplacementTarget = {
+                            type: 'infoLab',
+                            index: index
+                        };
+                        openReplaceModal();
+                    });
+                }
+                
+                container.appendChild(cardElement);
+            });
+        }
+        
+        function loadDosenCards(cards) {
+            const container = document.getElementById('dosen-cards');
+            container.innerHTML = '';
+            
+            cards.forEach((dosen, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('card');
+                
+                cardElement.innerHTML = `
+                    <div class="card-img">
+                        <img src="${dosen.image}" alt="${dosen.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Gambar+Tidak+Tersedia'">
+                        ${isAdminLoggedIn() ? `<button class="edit-btn" data-index="${index}" data-section="dosen">Ganti Gambar</button>` : ''}
+                    </div>
+                    <div class="card-content">
+                        <h3>${dosen.name}</h3>
+                        <p><strong>Bidang Keahlian:</strong> ${dosen.specialization}</p>
+                        <p><strong>Pendidikan:</strong> ${dosen.education}</p>
+                        <p><strong>Email:</strong> ${dosen.email}</p>
+                    </div>
+                `;
+                
+                if (isAdminLoggedIn()) {
+                    const editBtn = cardElement.querySelector('.edit-btn');
+                    editBtn.addEventListener('click', () => {
+                        currentReplacementTarget = {
+                            type: 'dosen',
+                            index: index
+                        };
+                        openReplaceModal();
+                    });
+                }
+                
+                container.appendChild(cardElement);
+            });
+        }
+        
+        function loadMahasiswaData(angkatan) {
+            const container = document.getElementById('mahasiswa-angkatan');
+            container.innerHTML = '';
+            
+            // Urutkan angkatan secara descending (2023 di atas)
+            const sortedYears = Object.keys(angkatan).sort((a, b) => b - a);
+            
+            sortedYears.forEach(year => {
+                const angkatanSection = document.createElement('div');
+                angkatanSection.classList.add('angkatan');
+                
+                let html = `<h3>Angkatan ${year}</h3>`;
+                html += '<div class="card-container">';
+                
+                angkatan[year].forEach((mahasiswa, index) => {
+                    html += `
+                        <div class="card">
+                            <div class="card-img">
+                                <img src="${mahasiswa.image}" alt="${mahasiswa.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Gambar+Tidak+Tersedia'">
+                                ${isAdminLoggedIn() ? `<button class="edit-btn" data-year="${year}" data-index="${index}" data-section="mahasiswa">Ganti Gambar</button>` : ''}
+                            </div>
+                            <div class="card-content">
+                                <h3>${mahasiswa.name}</h3>
+                                <p><strong>NIM:</strong> ${mahasiswa.nim}</p>
+                                <p><strong>Bidang Minat:</strong> ${mahasiswa.interest}</p>
+                                <p><strong>Email:</strong> ${mahasiswa.email}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                angkatanSection.innerHTML = html;
+                container.appendChild(angkatanSection);
+                
+                // Add event listeners for edit buttons if admin is logged in
+                if (isAdminLoggedIn()) {
+                    const editButtons = angkatanSection.querySelectorAll('.edit-btn');
+                    editButtons.forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const year = btn.getAttribute('data-year');
+                            const index = btn.getAttribute('data-index');
+                            currentReplacementTarget = {
+                                type: 'mahasiswa',
+                                year: year,
+                                index: parseInt(index)
+                            };
+                            openReplaceModal();
+                        });
+                    });
+                }
+            });
+        }
+        
+        function loadResearchProjects(projects) {
+            const container = document.getElementById('research-projects');
+            container.innerHTML = '';
+            
+            projects.forEach((project, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('card');
+                
+                cardElement.innerHTML = `
+                    <div class="card-content">
+                        <h3>${project.title}</h3>
+                        <p><strong>Mahasiswa:</strong> ${project.name}</p>
+                        <p><strong>NIM:</strong> ${project.nim}</p>
+                        <p><strong>Dosen Pembimbing:</strong> ${project.advisor}</p>
+                    </div>
+                `;
+                
+                container.appendChild(cardElement);
+            });
+        }
+        
+        function setupAdminFunctionality() {
+            // Login functionality
+            const loginBtn = document.getElementById('login-btn');
+            const adminPassword = document.getElementById('admin-password');
+            const loginMessage = document.getElementById('login-message');
+            
+            loginBtn.addEventListener('click', () => {
+                if (adminPassword.value === ADMIN_PASSWORD) {
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    loginMessage.textContent = 'Login berhasil!';
+                    loginMessage.style.color = '#6bff6b';
+                    
+                    // Redirect to admin panel after a short delay
+                    setTimeout(() => {
+                        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                        document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                        
+                        document.querySelector('[data-target="admin-panel"]').classList.add('active');
+                        document.getElementById('admin-panel').classList.add('active');
+                        
+                        // Reload data to show edit buttons
+                        loadWebsiteData();
+                    }, 1000);
+                } else {
+                    loginMessage.textContent = 'Password salah!';
+                    loginMessage.style.color = '#ff6b6b';
+                }
+            });
+            
+            // Logout functionality
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('adminLoggedIn');
+                    alert('Anda telah logout');
+                    location.reload();
+                });
+            }
+            
+            // Save functionality for each section
+            setupSaveButtons();
+            
+            // Upload functionality
+            setupUploadButtons();
+        }
+        
+        function setupSaveButtons() {
+            // Beranda save
+            document.getElementById('save-beranda').addEventListener('click', () => {
+                const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                websiteData.beranda.title = document.getElementById('edit-beranda-title').value;
+                websiteData.beranda.description = document.getElementById('edit-beranda-desc').value;
+                localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                alert('Perubahan beranda disimpan!');
+                loadWebsiteData();
+            });
+            
+            // Info Lab save
+            document.getElementById('save-info-lab').addEventListener('click', () => {
+                const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                websiteData.infoLab.title = document.getElementById('edit-info-lab-title').value;
+                websiteData.infoLab.description = document.getElementById('edit-info-lab-desc').value;
+                localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                alert('Perubahan info lab disimpan!');
+                loadWebsiteData();
+            });
+            
+            // Dosen save
+            document.getElementById('save-dosen').addEventListener('click', () => {
+                const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                websiteData.dosen.title = document.getElementById('edit-dosen-title').value;
+                websiteData.dosen.description = document.getElementById('edit-dosen-desc').value;
+                localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                alert('Perubahan dosen disimpan!');
+                loadWebsiteData();
+            });
+            
+            // Mahasiswa save
+            document.getElementById('save-mahasiswa').addEventListener('click', () => {
+                const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                websiteData.mahasiswa.title = document.getElementById('edit-mahasiswa-title').value;
+                websiteData.mahasiswa.description = document.getElementById('edit-mahasiswa-desc').value;
+                localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                alert('Perubahan mahasiswa disimpan!');
+                loadWebsiteData();
+            });
+            
+            // Penelitian save
+            document.getElementById('save-penelitian').addEventListener('click', () => {
+                const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                websiteData.penelitian.title = document.getElementById('edit-penelitian-title').value;
+                websiteData.penelitian.description = document.getElementById('edit-penelitian-desc').value;
+                localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                alert('Perubahan penelitian disimpan!');
+                loadWebsiteData();
+            });
+        }
+        
+        function setupUploadButtons() {
+            // Upload gambar beranda
+            document.getElementById('upload-beranda-image').addEventListener('click', () => {
+                const fileInput = document.getElementById('beranda-image-upload');
+                const caption = document.getElementById('beranda-image-caption').value;
+                
+                if (fileInput.files.length > 0 && caption) {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                        websiteData.beranda.images.push({
+                            url: e.target.result,
+                            caption: caption
+                        });
+                        localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                        alert('Gambar berhasil ditambahkan ke beranda!');
+                        loadWebsiteData();
+                        
+                        // Reset form
+                        fileInput.value = '';
+                        document.getElementById('beranda-image-caption').value = '';
+                    };
+                    
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Pilih file gambar dan isi keterangan!');
+                }
+            });
+            
+            // Upload logo
+            document.getElementById('upload-logo').addEventListener('click', () => {
+                const fileInput = document.getElementById('logo-upload');
+                
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                        websiteData.logo = e.target.result;
+                        localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                        alert('Logo berhasil diubah!');
+                        loadWebsiteData();
+                        
+                        // Reset form
+                        fileInput.value = '';
+                    };
+                    
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Pilih file logo!');
+                }
+            });
+        }
+        
+        function setupAdminFormValues(websiteData) {
+            document.getElementById('edit-beranda-title').value = websiteData.beranda.title;
+            document.getElementById('edit-beranda-desc').value = websiteData.beranda.description;
+            document.getElementById('edit-info-lab-title').value = websiteData.infoLab.title;
+            document.getElementById('edit-info-lab-desc').value = websiteData.infoLab.description;
+            document.getElementById('edit-dosen-title').value = websiteData.dosen.title;
+            document.getElementById('edit-dosen-desc').value = websiteData.dosen.description;
+            document.getElementById('edit-mahasiswa-title').value = websiteData.mahasiswa.title;
+            document.getElementById('edit-mahasiswa-desc').value = websiteData.mahasiswa.description;
+            document.getElementById('edit-penelitian-title').value = websiteData.penelitian.title;
+            document.getElementById('edit-penelitian-desc').value = websiteData.penelitian.description;
+        }
+        
+        function isAdminLoggedIn() {
+            return localStorage.getItem('adminLoggedIn') === 'true';
+        }
+        
+        function setupImageModal() {
+            const modal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalClose = document.getElementById('modal-close');
+            
+            modalClose.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        }
+        
+        function setupReplaceModal() {
+            const modal = document.getElementById('replace-modal');
+            const confirmBtn = document.getElementById('confirm-replace');
+            const cancelBtn = document.getElementById('cancel-replace');
+            const fileInput = document.getElementById('replace-image-input');
+            
+            cancelBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+                currentReplacementTarget = null;
+                fileInput.value = '';
+            });
+            
+            confirmBtn.addEventListener('click', () => {
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                        
+                        // Update gambar berdasarkan target
+                        if (currentReplacementTarget.type === 'gallery') {
+                            if (currentReplacementTarget.section === 'beranda-gallery') {
+                                websiteData.beranda.images[currentReplacementTarget.index].url = e.target.result;
+                            }
+                        } else if (currentReplacementTarget.type === 'infoLab') {
+                            websiteData.infoLab.cards[currentReplacementTarget.index].image = e.target.result;
+                        } else if (currentReplacementTarget.type === 'dosen') {
+                            websiteData.dosen.cards[currentReplacementTarget.index].image = e.target.result;
+                        } else if (currentReplacementTarget.type === 'mahasiswa') {
+                            const year = currentReplacementTarget.year;
+                            const index = currentReplacementTarget.index;
+                            websiteData.mahasiswa.angkatan[year][index].image = e.target.result;
+                        }
+                        
+                        localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                        alert('Gambar berhasil diganti!');
+                        loadWebsiteData();
+                        
+                        // Tutup modal dan reset
+                        modal.classList.remove('active');
+                        currentReplacementTarget = null;
+                        fileInput.value = '';
+                    };
+                    
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Pilih file gambar terlebih dahulu!');
+                }
+            });
+        }
+        
+        function openImageModal(imageUrl) {
+            const modal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            
+            modalImage.src = imageUrl;
+            modal.classList.add('active');
+        }
+        
+        function openReplaceModal() {
+            const modal = document.getElementById('replace-modal');
+            modal.classList.add('active');
+        }
+        
+        // Fungsi untuk memuat form edit kartu info lab
+        function loadEditInfoLabCardsForm(websiteData) {
+            const container = document.getElementById('edit-info-lab-cards-form');
+            container.innerHTML = '';
+            
+            websiteData.infoLab.cards.forEach((card, index) => {
+                const cardForm = document.createElement('div');
+                cardForm.classList.add('edit-content-form');
+                
+                cardForm.innerHTML = `
+                    <div class="edit-item">
+                        <h4>Kartu Info Lab ${index + 1}</h4>
+                        <div class="admin-form">
+                            <input type="text" value="${card.title}" id="edit-info-lab-card-title-${index}" placeholder="Judul Kartu">
+                            <textarea id="edit-info-lab-card-desc-${index}" placeholder="Deskripsi Kartu">${card.description}</textarea>
+                            <button class="save-info-lab-card" data-index="${index}">Simpan Perubahan Kartu</button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(cardForm);
+            });
+            
+            // Event listener untuk menyimpan perubahan kartu info lab
+            container.querySelectorAll('.save-info-lab-card').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = this.getAttribute('data-index');
+                    const title = document.getElementById(`edit-info-lab-card-title-${index}`).value;
+                    const description = document.getElementById(`edit-info-lab-card-desc-${index}`).value;
+                    
+                    const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                    websiteData.infoLab.cards[index].title = title;
+                    websiteData.infoLab.cards[index].description = description;
+                    localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                    alert('Perubahan kartu info lab disimpan!');
+                    loadWebsiteData();
+                });
+            });
+        }
+        
+        // Fungsi untuk memuat form edit data dosen
+        function loadEditDosenCardsForm(websiteData) {
+            const container = document.getElementById('edit-dosen-cards-form');
+            container.innerHTML = '';
+            
+            websiteData.dosen.cards.forEach((dosen, index) => {
+                const dosenForm = document.createElement('div');
+                dosenForm.classList.add('edit-content-form');
+                
+                dosenForm.innerHTML = `
+                    <div class="edit-item">
+                        <h4>Data Dosen ${index + 1}</h4>
+                        <div class="admin-form">
+                            <input type="text" value="${dosen.name}" id="edit-dosen-name-${index}" placeholder="Nama Dosen">
+                            <input type="text" value="${dosen.specialization}" id="edit-dosen-specialization-${index}" placeholder="Bidang Keahlian">
+                            <input type="text" value="${dosen.education}" id="edit-dosen-education-${index}" placeholder="Pendidikan">
+                            <input type="email" value="${dosen.email}" id="edit-dosen-email-${index}" placeholder="Email">
+                            <button class="save-dosen-card" data-index="${index}">Simpan Perubahan Dosen</button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(dosenForm);
+            });
+            
+            // Event listener untuk menyimpan perubahan data dosen
+            container.querySelectorAll('.save-dosen-card').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = this.getAttribute('data-index');
+                    const name = document.getElementById(`edit-dosen-name-${index}`).value;
+                    const specialization = document.getElementById(`edit-dosen-specialization-${index}`).value;
+                    const education = document.getElementById(`edit-dosen-education-${index}`).value;
+                    const email = document.getElementById(`edit-dosen-email-${index}`).value;
+                    
+                    const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                    websiteData.dosen.cards[index].name = name;
+                    websiteData.dosen.cards[index].specialization = specialization;
+                    websiteData.dosen.cards[index].education = education;
+                    websiteData.dosen.cards[index].email = email;
+                    localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                    alert('Perubahan data dosen disimpan!');
+                    loadWebsiteData();
+                });
+            });
+        }
+        
+        // Fungsi untuk memuat form edit data mahasiswa
+        function loadEditMahasiswaForm(websiteData) {
+            const container = document.getElementById('edit-mahasiswa-form');
+            container.innerHTML = '';
+            
+            // Urutkan angkatan secara descending (2023 di atas)
+            const sortedYears = Object.keys(websiteData.mahasiswa.angkatan).sort((a, b) => b - a);
+            
+            sortedYears.forEach(year => {
+                const yearSection = document.createElement('div');
+                yearSection.classList.add('edit-content-form');
+                yearSection.innerHTML = `<h3>Angkatan ${year}</h3>`;
+                container.appendChild(yearSection);
+                
+                websiteData.mahasiswa.angkatan[year].forEach((mahasiswa, index) => {
+                    const mhsForm = document.createElement('div');
+                    mhsForm.classList.add('edit-item');
+                    
+                    mhsForm.innerHTML = `
+                        <h4>Mahasiswa ${index + 1}</h4>
+                        <div class="admin-form">
+                            <input type="text" value="${mahasiswa.name}" id="edit-mahasiswa-name-${year}-${index}" placeholder="Nama Mahasiswa">
+                            <input type="text" value="${mahasiswa.nim}" id="edit-mahasiswa-nim-${year}-${index}" placeholder="NIM">
+                            <input type="text" value="${mahasiswa.interest}" id="edit-mahasiswa-interest-${year}-${index}" placeholder="Bidang Minat">
+                            <input type="email" value="${mahasiswa.email}" id="edit-mahasiswa-email-${year}-${index}" placeholder="Email">
+                            <button class="save-mahasiswa" data-year="${year}" data-index="${index}">Simpan Perubahan Mahasiswa</button>
+                        </div>
+                    `;
+                    
+                    yearSection.appendChild(mhsForm);
+                });
+            });
+            
+            // Event listener untuk menyimpan perubahan data mahasiswa
+            container.querySelectorAll('.save-mahasiswa').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const year = this.getAttribute('data-year');
+                    const index = this.getAttribute('data-index');
+                    const name = document.getElementById(`edit-mahasiswa-name-${year}-${index}`).value;
+                    const nim = document.getElementById(`edit-mahasiswa-nim-${year}-${index}`).value;
+                    const interest = document.getElementById(`edit-mahasiswa-interest-${year}-${index}`).value;
+                    const email = document.getElementById(`edit-mahasiswa-email-${year}-${index}`).value;
+                    
+                    const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                    websiteData.mahasiswa.angkatan[year][index].name = name;
+                    websiteData.mahasiswa.angkatan[year][index].nim = nim;
+                    websiteData.mahasiswa.angkatan[year][index].interest = interest;
+                    websiteData.mahasiswa.angkatan[year][index].email = email;
+                    localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                    alert('Perubahan data mahasiswa disimpan!');
+                    loadWebsiteData();
+                });
+            });
+        }
+        
+        // Fungsi untuk memuat form edit data penelitian
+        function loadEditPenelitianForm(websiteData) {
+            const container = document.getElementById('edit-penelitian-form');
+            container.innerHTML = '';
+            
+            websiteData.penelitian.projects.forEach((project, index) => {
+                const projectForm = document.createElement('div');
+                projectForm.classList.add('edit-content-form');
+                
+                projectForm.innerHTML = `
+                    <div class="edit-item">
+                        <h4>Penelitian ${index + 1}</h4>
+                        <div class="admin-form">
+                            <input type="text" value="${project.name}" id="edit-penelitian-name-${index}" placeholder="Nama Mahasiswa">
+                            <input type="text" value="${project.nim}" id="edit-penelitian-nim-${index}" placeholder="NIM">
+                            <input type="text" value="${project.title}" id="edit-penelitian-title-${index}" placeholder="Judul Penelitian">
+                            <input type="text" value="${project.advisor}" id="edit-penelitian-advisor-${index}" placeholder="Dosen Pembimbing">
+                            <button class="save-penelitian" data-index="${index}">Simpan Perubahan Penelitian</button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(projectForm);
+            });
+            
+            // Event listener untuk menyimpan perubahan data penelitian
+            container.querySelectorAll('.save-penelitian').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = this.getAttribute('data-index');
+                    const name = document.getElementById(`edit-penelitian-name-${index}`).value;
+                    const nim = document.getElementById(`edit-penelitian-nim-${index}`).value;
+                    const title = document.getElementById(`edit-penelitian-title-${index}`).value;
+                    const advisor = document.getElementById(`edit-penelitian-advisor-${index}`).value;
+                    
+                    const websiteData = JSON.parse(localStorage.getItem('websiteData'));
+                    websiteData.penelitian.projects[index].name = name;
+                    websiteData.penelitian.projects[index].nim = nim;
+                    websiteData.penelitian.projects[index].title = title;
+                    websiteData.penelitian.projects[index].advisor = advisor;
+                    localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                    alert('Perubahan data penelitian disimpan!');
+                    loadWebsiteData();
+                });
+            });
+        }
+    </script>
+</body>
+</html>
